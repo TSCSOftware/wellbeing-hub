@@ -50,3 +50,22 @@ export async function subscribeToForegroundMessages(callback) {
   if (!(await isSupported())) return () => {}
   return onMessage(getMessaging(app), callback)
 }
+
+export function showLocalNotification({ title, body, url = '/dashboard' }) {
+  if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return false
+
+  const targetUrl = new URL(url, window.location.origin)
+  if (targetUrl.origin !== window.location.origin) return false
+
+  const notification = new Notification(title, {
+    body,
+    icon: '/logo-192.png',
+    data: { url: targetUrl.href },
+  })
+  notification.onclick = () => {
+    window.focus()
+    window.location.assign(targetUrl.href)
+  }
+
+  return true
+}

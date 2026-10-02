@@ -108,25 +108,15 @@ module.exports = async function sendPush(req, res) {
 
     const message = {
       tokens: targets.map(target => target.token),
-      notification: {
+      data: {
         title: title.trim(),
         body: body.trim(),
-      },
-      data: {
         url: safeUrl,
       },
       webpush: {
-        notification: {
-          icon: '/logo-192.png',
-        },
+        headers: { TTL: '86400' },
       },
     };
-
-    if (process.env.APP_ORIGIN) {
-      message.webpush.fcmOptions = {
-        link: new URL(safeUrl, process.env.APP_ORIGIN).toString(),
-      };
-    }
 
     const result = await admin.messaging().sendEachForMulticast(message);
 

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import Button from './Button.jsx'
 import useAuth from '../hooks/useAuth.js'
 import useHub from '../hooks/useHub.js'
+import { showLocalNotification } from '../firebase/messaging.js'
 
 const topics = [
   'Anxiety or panic',
@@ -71,6 +72,7 @@ export default function BookingForm({ counsellor, onBooked }) {
 
     let booking
     try {
+    
       booking = await bookSession({ counsellor, slot, topic, notes })
       if (!booking) throw new Error('That appointment is no longer available.')
     } catch (reason) {
@@ -81,6 +83,12 @@ export default function BookingForm({ counsellor, onBooked }) {
 
     // Function-as-prop: tell the parent page what happened.
     if (onBooked) onBooked(booking)
+
+    showLocalNotification({
+      title: 'Appointment booked successfully',
+      body: `${booking.counsellorName} on ${booking.day} at ${booking.time}.`,
+      url: '/dashboard/bookings',
+    })
 
     setIsSubmitting(false)
     navigate('/dashboard/bookings', { state: { justBooked: booking.id } })

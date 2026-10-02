@@ -80,11 +80,37 @@ export default function AuthProvider({ children }) {
     }
 
     let isActive = true
+    let stopForegroundMessages = () => {}
 
     async function refreshNotificationToken() {
       try {
-        const { enableNotifications } = await import('../firebase/messaging.js')
+        const {
+          enableNotifications,
+          subscribeToForegroundMessages,
+        } = await import('../firebase/messaging.js')
         await enableNotifications(firebaseUser.uid)
+
+        const unsubscribe = await subscribeToForegroundMessages((payload) => {
+          const title = payload.notification?.title || payload.data?.title || 'Student Wellbeing Hub'
+          const body = payload.notification?.body || payload.data?.body || 'You have a new wellbeing update.'
+          const requestedUrl = payload.data?.url || '/dashboard'
+          const targetUrl = new URL(requestedUrl, window.location.origin)
+
+          if (targetUrl.origin !== window.location.origin) return
+
+          const notification = new Notification(title, {
+            body,
+            icon: '/logo-192.png',
+            data: { url: targetUrl.href },
+          })
+          notification.onclick = () => {
+            window.focus()
+            window.location.assign(targetUrl.href)
+          }
+        })
+
+        if (isActive) stopForegroundMessages = unsubscribe
+        else unsubscribe()
       } catch (error) {
         if (isActive) {
           console.warn('Notification setup:', error.message)
@@ -93,7 +119,10 @@ export default function AuthProvider({ children }) {
     }
 
     refreshNotificationToken()
-    return () => { isActive = false }
+    return () => {
+      isActive = false
+      stopForegroundMessages()
+    }
   }, [firebaseUser])
 
   const login = useCallback(async ({ email, password }) => {
