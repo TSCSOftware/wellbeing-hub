@@ -6,8 +6,13 @@ import EmptyState from '../components/EmptyState.jsx'
 import PageLayout from '../components/PageLayout.jsx'
 import useDocumentTitle from '../hooks/useDocumentTitle.js'
 
-const API_URL = 'https://newsapi.org/v2/everything'
+const NEWS_API_HOST = 'newsapi.org'
 const DEFAULT_QUERY = 'mental health OR wellbeing OR student health'
+
+function getApiUrl() {
+  const protocol = window.location.protocol === 'http:' ? 'http:' : 'https:'
+  return `${protocol}//${NEWS_API_HOST}/v2/everything`
+}
 
 function getFromDate() {
   const date = new Date()
@@ -58,7 +63,7 @@ export default function HealthNews() {
     })
 
     try {
-      const response = await fetch(`${API_URL}?${params}`)
+      const response = await fetch(`${getApiUrl()}?${params}`)
       const result = await response.json()
 
       if (!response.ok || result.status !== 'ok') {
