@@ -1,0 +1,14 @@
+service-account.json
+.env.local
+.vercel
+node_modules
+dist
+dist-ssr
+.vite
+*.local
+.DS_Store
+.env
+.env.*
+!.env.example
+npm-debug.log*
+yarn-error.log*

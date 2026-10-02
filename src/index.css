@@ -1,0 +1,135 @@
+/* ---------------------------------------------------------------
+   Tailwind CSS v4 entry point.
+   In v4 there is no tailwind.config.js and no @tailwind directives -
+   a single @import pulls the whole framework in (per the Tailwind deck).
+   --------------------------------------------------------------- */
+@import "tailwindcss";
+
+/* Class-based dark mode: <html class="dark"> flips every dark:* utility.
+   ThemeProvider toggles that class with a useEffect. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Design tokens. Anything declared in @theme becomes a real utility,
+   so `bg-brand-500`, `text-calm-600`, `font-display` all work below. */
+@theme {
+  --color-brand-50: #eefcf9;
+  --color-brand-100: #d4f7ef;
+  --color-brand-200: #a9ecdf;
+  --color-brand-300: #70d9c9;
+  --color-brand-400: #38b9aa;
+  --color-brand-500: #159689;
+  --color-brand-600: #0f766e;
+  --color-brand-700: #115e59;
+  --color-brand-800: #134e4a;
+  --color-brand-900: #123d3a;
+
+  --color-calm-50: #f5f7ff;
+  --color-calm-100: #e9edff;
+  --color-calm-200: #d4dcff;
+  --color-calm-300: #b1bfff;
+  --color-calm-400: #8798f5;
+  --color-calm-500: #6676df;
+  --color-calm-600: #5260c8;
+  --color-calm-700: #444fa6;
+  --color-calm-800: #394386;
+  --color-calm-900: #313969;
+
+  --color-sand-50: #f7faf9;
+  --color-sand-100: #edf4f2;
+
+  --font-display: "Aptos", "Segoe UI Variable", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-xl2: 1.25rem;
+
+  --animate-fade-up: fade-up 0.35s ease-out both;
+  --animate-breathe: breathe 4s ease-in-out infinite;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(0.75);
+    opacity: 0.65;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* A few base-layer resets on top of Tailwind's preflight. */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-sand-50 text-slate-800 font-display antialiased;
+  }
+
+  .dark body {
+    @apply bg-slate-950 text-slate-100;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-500;
+  }
+}
+
+/* Small, reusable component classes so JSX stays readable.
+   Everything else is plain utility classes, as taught in the deck. */
+@layer components {
+  .field {
+    @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm
+           text-slate-800 placeholder:text-slate-400
+           focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none
+           disabled:cursor-not-allowed disabled:bg-slate-100;
+  }
+
+  .dark .field {
+    @apply border-slate-700 bg-slate-900 text-slate-100 placeholder:text-slate-500
+           focus:ring-brand-900;
+  }
+
+  .label {
+    @apply mb-1 block text-sm font-medium text-slate-700;
+  }
+
+  .dark .label {
+    @apply text-slate-300;
+  }
+}
+
+
+/* 2026 visual refresh: calm, trustworthy, check-in focused. */
+@layer base {
+  body {
+    line-height: 1.6;
+    background-image:
+      radial-gradient(circle at 8% 0%, rgb(20 184 166 / 0.10), transparent 28rem),
+      radial-gradient(circle at 92% 8%, rgb(102 118 223 / 0.10), transparent 30rem);
+    background-attachment: fixed;
+  }
+  h1, h2, h3 { letter-spacing: -0.025em; text-wrap: balance; }
+  p { text-wrap: pretty; }
+  ::selection { background: rgb(20 184 166 / 0.22); }
+}
+
+@layer components {
+  .surface {
+    @apply rounded-2xl border border-white/70 bg-white/88 shadow-sm backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-900/88;
+  }
+  .field { @apply min-h-11 rounded-xl; }
+  .label { @apply font-semibold tracking-tight; }
+}
