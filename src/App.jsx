@@ -11,6 +11,7 @@ import About from './pages/About.jsx'
 import Counsellors from './pages/Counsellors.jsx'
 import CounsellorDetails from './pages/CounsellorDetails.jsx'
 import Resources from './pages/Resources.jsx'
+import HealthNews from './pages/HealthNews.jsx'
 import ResourceDetails from './pages/ResourceDetails.jsx'
 import Contact from './pages/Contact.jsx'
 import Login from './pages/Login.jsx'
@@ -69,6 +70,7 @@ export default function App() {
           <Route path="/counsellors/:counsellorId" element={<CounsellorDetails />} />
 
           <Route path="/resources" element={<Resources />} />
+          <Route path="/health-news" element={<HealthNews />} />
           <Route path="/resources/:resourceId" element={<ResourceDetails />} />
 
           <Route path="/contact" element={<Contact />} />

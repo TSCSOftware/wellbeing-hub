@@ -10,6 +10,7 @@ const links = [
   { to: '/', label: 'Home', end: true },
   { to: '/counsellors', label: 'Counsellors' },
   { to: '/resources', label: 'Resources & Blogs' },
+  { to: '/health-news', label: 'Health News' },
   { to: '/about', label: 'About' },
   { to: '/contact', label: 'Contact' },
 ]
