@@ -70,12 +70,12 @@ npm install --global firebase-tools
 ## Clone and install
 
 ```bash
-git clone https://github.com/tSCSOftware/y2s1_web_assignment.git
+git clone https://github.com/TSCSOftware/wellbeing-hub.git
 cd student-wellbeing-hub
 npm install
 ```
 
-Public repository: https://github.com/tSCSOftware/y2s1_web_assignment
+Public repository: https://github.com/TSCSOftware/wellbeing-hub
 
 ## Frontend environment configuration
 

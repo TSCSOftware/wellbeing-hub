@@ -1,6 +1,7 @@
 service-account.json
 .env.local
 .vercel
+.firebase
 node_modules
 dist
 dist-ssr
@@ -10,5 +11,7 @@ dist-ssr
 .env
 .env.*
 !.env.example
+service-account.json
+**/service-account*.json
 npm-debug.log*
 yarn-error.log*
